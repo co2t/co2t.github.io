@@ -1,8 +1,10 @@
 <svg width="100%" height="100%" viewBox="0 0 300 500" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="red" stroke-width="2"/>
+<rect x="0" y="0" width="100%" height="100%" fill="#333" rx="30"/>
 <foreignObject x="0" y="0" width="100%" height="100%">
-<div xmlns="http://www.w3.org/1999/xhtml">
-<img alt="me" src="https://urln.github.io/me.svg" width="100%" height="100%"/>
-</div>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body style="text-align:center;color:#fff">
+  CO2T.GITHUB.IO
+</body>
+</html>
 </foreignObject>
 </svg>
