@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>co2t.github.io</title>
+    <script src="https://co2t.github.io/p5.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+            border:1px solid white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="content">
+        <h1>co2t.github.io</h1>
+        <p>This page features an interactive p5.js rain animation as the background. The drops fall from the top and create splashes when they reach the bottom.</p>
+        <a href="#" class="btn">Learn More</a>
+    </div>
+
+    <script>
+        let raindrops = [];
+        let numOfDrops;
+
+        function setup() {
+            const canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('canvas-container');
+            numOfDrops = windowWidth / 2;
+            
+            for(let i = 0; i < numOfDrops; i++) {
+                raindrops[i] = new Raindrop();
+            }
+        }
+
+        function draw() {
+            background(0, 0, 0, 20); // Slight fade effect
+            for(let i = 0; i < numOfDrops; i++) {
+                raindrops[i].fall();
+                raindrops[i].show();
+                if(raindrops[i].reachedBottom()) {
+                    raindrops[i].splash();
+                    raindrops[i].y = 0;
+                }
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        class Raindrop {
+            constructor() {
+                this.x = random(windowWidth);
+                this.y = random(-100, -600);
+                this.z = random(1, 3);
+                this.speed = random(1, 3);
+                this.gravity = random(1, 2);
+                this.len = random(3, 10);
+                this.rgb = [random(50, 200), random(100, 220), 255]; // Blueish tint
+            }
+            
+            fall() {
+                this.y += this.speed;
+                this.y += this.gravity;
+            }
+            
+            reachedBottom() {
+                return this.y > windowHeight;
+            }
+            
+            splash() {
+                strokeWeight(this.z);
+                stroke(this.rgb[0], this.rgb[1], this.rgb[2], 150);
+                
+                for (let i = -10; i <= 10; i += 5) {
+                    line(this.x, this.y, this.x + i, this.y - 15);
+                }
+            }
+
+            show() {
+                strokeWeight(this.z);
+                stroke(this.rgb[0], this.rgb[1], this.rgb[2]);
+                line(this.x, this.y, this.x, this.y + this.len);
+            }
+        }
+    </script>
+</body>
+</html>
