@@ -18,46 +18,8 @@ box-sizing: border-box;
 </style>
 </head>
 <body>
-<iframe id="base"></iframe>
-<script>
-function updateBase() {
-const iframe = document.getElementById('base');
-iframe.width = window.innerWidth;
-iframe.height = window.innerHeight;
-}
-function refreshIframe() {
-const iframe = document.getElementById('base');
-iframe.srcdoc = `
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-body {
-width:1000px;
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100%;
-background-color: #f0f8ff;
-}
-.content {
-text-align: center;
-}
-</style>
-</head>
-<body>
-<p class="codepen" data-height="600" data-theme-id="dark" data-default-tab="result" data-slug-hash="ogXrRWo" data-pen-title="js" data-user="urln"></p>
-<script async src="index.js"><\/script>
+<p class="codepen" data-slug-hash=" EaYOqVw " data-height="600" data-theme-id="dark" data-default-tab="result" data-user="urln"></p>
+<script async src="index.js"></script>
 
-</body>
-</html>
-`;
-}
-window.addEventListener('load', function() {
-updateBase();
-refreshIframe();
-});
-window.addEventListener('resize', updateBase);
-</script>
 </body>
 </html>
