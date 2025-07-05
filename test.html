@@ -1,26 +1,127 @@
-<iframe id="source" height="300" style="width: 100%;" scrolling="no" title="js" src="https://codepen.io/urln/embed/ogXrRWo?default-tab=js" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe>
-<textarea id="output" placeholder="Extracted content will appear here..."></textarea>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Content Fetcher</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: #f5f5f5;
+margin: 0;
+padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+min-height: 100vh;
+}
+.container {
+background-color: white;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+width: 80%;
+max-width: 800px;
+padding: 30px;
+margin-top: 20px;
+}
+h1 {
+color: #333;
+text-align: center;
+margin-bottom: 20px;
+}
+.status {
+padding: 10px;
+border-radius: 4px;
+margin-bottom: 15px;
+text-align: center;
+background-color: #f0f0f0;
+}
+.success {
+background-color: #d4edda;
+color: #155724;
+}
+.error {
+background-color: #f8d7da;
+color: #721c24;
+}
+textarea {
+width: 100%;
+min-height: 200px;
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-family: monospace;
+resize: vertical;
+box-sizing: border-box;
+}
+textarea:focus {
+outline: none;
+border-color: #6c757d;
+box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.1);
+}
+.controls {
+margin-top: 15px;
+display: flex;
+justify-content: space-between;
+}
+button {
+padding: 8px 16px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-weight: 500;
+}
+.refresh-btn {
+background-color: #007bff;
+color: white;
+}
+.refresh-btn:hover {
+background-color: #0069d9;
+}
+.filename {
+font-weight: 500;
+color: #6c757d;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>File Content Viewer</h1>
+<div id="status" class="status">Loading file content...</div>
+<div class="filename">Currently viewing: file.txt</div>
+<textarea id="fileContent" placeholder="File content will appear here..." readonly></textarea>
+<div class="controls">
+<button id="refreshBtn" class="refresh-btn">Refresh Content</button>
+</div>
+</div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-const refreshBtn = document.getElementById('refreshBtn');
-const outputTextarea = document.getElementById('output');
-const iframe = document.getElementById('source');
-function extractContent() {
-try {
-const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-const bodyContent = iframeDoc.body.innerHTML;
-outputTextarea.value = bodyContent;
-console.log('Content extracted successfully');
-} catch (error) {
-outputTextarea.value = 'Error: ' + error.message;
-console.error('Error extracting content:', error);
+$(document).ready(function() {
+// Function to fetch and display file content
+function fetchFileContent() {
+$('#status').removeClass('success error').text('Loading file content...');
+$.ajax({
+url: 'file.txt',
+dataType: 'text',
+success: function(data) {
+$('#fileContent').val(data);
+$('#status').addClass('success').text('File loaded successfully!');
+},
+error: function(xhr, status, error) {
+$('#fileContent').val('');
+$('#status').addClass('error').text('Error: ' + error);
+console.error('Error fetching file:', error);
 }
-}
-iframe.addEventListener('load', extractContent);
-refreshBtn.addEventListener('click', function() {
-iframe.src = iframe.src;
-outputTextarea.value = '';
 });
-extractContent();
+}
+// Initial fetch
+fetchFileContent();
+// Refresh button handler
+$('#refreshBtn').click(function() {
+fetchFileContent();
+});
 });
 </script>
+</body>
+</html>
