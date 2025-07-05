@@ -1,5 +1,26 @@
-<iframe height="300" style="width: 100%;" scrolling="no" title="js" src="https://codepen.io/urln/embed/ogXrRWo?default-tab=js" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/urln/pen/ogXrRWo">
-  js</a> by Andi Virgo (<a href="https://codepen.io/urln">@urln</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<iframe id="source" height="300" style="width: 100%;" scrolling="no" title="js" src="https://codepen.io/urln/embed/ogXrRWo?default-tab=js" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe>
+<textarea id="output" placeholder="Extracted content will appear here..."></textarea>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const refreshBtn = document.getElementById('refreshBtn');
+const outputTextarea = document.getElementById('output');
+const iframe = document.getElementById('source');
+function extractContent() {
+try {
+const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+const bodyContent = iframeDoc.body.innerHTML;
+outputTextarea.value = bodyContent;
+console.log('Content extracted successfully');
+} catch (error) {
+outputTextarea.value = 'Error: ' + error.message;
+console.error('Error extracting content:', error);
+}
+}
+iframe.addEventListener('load', extractContent);
+refreshBtn.addEventListener('click', function() {
+iframe.src = iframe.src;
+outputTextarea.value = '';
+});
+extractContent();
+});
+</script>
